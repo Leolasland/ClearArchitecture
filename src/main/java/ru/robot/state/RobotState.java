@@ -2,23 +2,37 @@ package ru.robot.state;
 
 import java.awt.*;
 
-public record RobotState(
-       Point position,
-       int angle,
-       CleaningState cleaningState
+public class RobotState {
+    Point pos;
+    int angle;
+    CleaningState cleaning;
 
-) {
-    public static final RobotState INITIAL = new RobotState(new Point(0, 0), 0, CleaningState.WATER);
-
-    public RobotState moveBy(int dx, int dy) {
-        return new RobotState(new Point(position.x + dx, position.y + dy), angle, cleaningState);
+    public RobotState(Point pos, int angle, CleaningState cleaning) {
+        this.pos = pos;
+        this.angle = angle;
+        this.cleaning = cleaning;
+    }
+    public Point getPos() {
+        return pos;
     }
 
-    public RobotState withAngle(int newAngle) {
-        return new RobotState(position, newAngle, cleaningState);
+    public void setPos(Point pos) {
+        this.pos = pos;
     }
 
-    public RobotState withCleaningState(CleaningState newCleaningState) {
-        return new RobotState(position, angle, newCleaningState);
+    public int getAngle() {
+        return angle;
+    }
+
+    public void setAngle(int angle) {
+        this.angle = angle;
+    }
+
+    public CleaningState getCleaning() {
+        return cleaning;
+    }
+
+    public void setCleaning(CleaningState cleaning) {
+        this.cleaning = cleaning;
     }
 }

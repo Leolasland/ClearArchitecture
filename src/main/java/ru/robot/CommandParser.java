@@ -1,7 +1,5 @@
 package ru.robot;
 
-import ru.robot.state.CleaningState;
-
 public final class CommandParser {
 
     public Command parse(String line) {
@@ -14,23 +12,23 @@ public final class CommandParser {
         return switch (command) {
             case "move" -> {
                 validateArgs(parts, 2);
-                yield new Command.Move(Integer.parseInt(parts[1]));
+                yield new Command(CommandType.MOVE, Integer.parseInt(parts[1]));
             }
             case "turn" -> {
                 validateArgs(parts, 2);
-                yield new Command.Turn(Integer.parseInt(parts[1]));
+                yield new Command(CommandType.TURN, Integer.parseInt(parts[1]));
             }
             case "set" -> {
                 validateArgs(parts, 2);
-                yield new Command.Set(CleaningState.fromString(parts[1]));
+                yield new Command(CommandType.SET, parts[1]);
             }
             case "start" -> {
                 validateArgs(parts, 1);
-                yield new Command.Start();
+                yield new Command(CommandType.START, 0);
             }
             case "stop" -> {
                 validateArgs(parts, 1);
-                yield new Command.Stop();
+                yield new Command(CommandType.STOP, 0);
             }
             default -> throw new IllegalArgumentException("Unknown command: " + command);
         };

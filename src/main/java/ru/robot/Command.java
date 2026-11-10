@@ -1,25 +1,17 @@
 package ru.robot;
 
-import ru.robot.state.CleaningState;
+public class Command {
+    CommandType type;
+    int arg;
+    String sArg;
 
-public sealed interface Command permits Command.Move, Command.Turn, Command.Set, Command.Start, Command.Stop {
-    record Move(int distance) implements Command {
-
+    Command(CommandType type, int arg) {
+        this.type = type;
+        this.arg = arg;
     }
 
-    record Turn(int angle) implements Command {
-
-    }
-
-    record Set(CleaningState cleaning) implements Command {
-
-    }
-
-    record Start() implements Command {
-
-    }
-
-    record Stop() implements Command {
-
+    Command(CommandType type, String sArg) {
+        this.type = type;
+        this.sArg = sArg;
     }
 }
