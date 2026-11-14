@@ -1,40 +1,50 @@
 package ru.robot;
 
+import ru.robot.command.*;
+import ru.robot.state.CleaningState;
+
+import java.util.Map;
+
 public final class CommandParser {
 
-    public Command parse(String line) {
-        line = line.trim();
-        if (line.isBlank()) {
-            throw new IllegalArgumentException("Empty command");
-        }
-        String[] parts = line.split(" ");
-        String command = parts[0];
-        return switch (command) {
-            case "move" -> {
-                validateArgs(parts, 2);
-                yield new Command(CommandType.MOVE, Integer.parseInt(parts[1]));
-            }
-            case "turn" -> {
-                validateArgs(parts, 2);
-                yield new Command(CommandType.TURN, Integer.parseInt(parts[1]));
-            }
-            case "set" -> {
-                validateArgs(parts, 2);
-                yield new Command(CommandType.SET, parts[1]);
-            }
-            case "start" -> {
-                validateArgs(parts, 1);
-                yield new Command(CommandType.START, 0);
-            }
-            case "stop" -> {
-                validateArgs(parts, 1);
-                yield new Command(CommandType.STOP, 0);
-            }
-            default -> throw new IllegalArgumentException("Unknown command: " + command);
-        };
+    @FunctionalInterface
+    private interface Factory {
+        Command create(String[] parts);
     }
 
-    private void validateArgs(String[] args, int expectedLength) {
+    private static final Map<String, Factory> FACTORIES = Map.of(
+            "move", parts -> {
+                validateArgs(parts, 2);
+                return new MoveCommand(Integer.parseInt(parts[1]));
+            },
+            "turn", parts -> {
+                validateArgs(parts, 2);
+                return new TurnCommand(Integer.parseInt(parts[1]));
+            },
+            "set", parts -> {
+                validateArgs(parts, 2);
+                return new SetCommand(CleaningState.fromString(parts[1]));
+            },
+            "start", parts -> {
+                validateArgs(parts, 1);
+                return new StartCommand();
+            },
+            "stop", parts -> {
+                validateArgs(parts, 1);
+                return new StopCommand();
+            }
+    );
+
+    public Command parse(String line) {
+        String[] parts = line.split("\\s+");
+        Factory factory = FACTORIES.get(parts[0]);
+        if (factory == null) {
+            throw new IllegalArgumentException("Unknown command: '" + parts[0] + "'");
+        }
+        return factory.create(parts);
+    }
+
+    private static void validateArgs(String[] args, int expectedLength) {
         if (args.length != expectedLength) {
             throw new IllegalArgumentException("Wrong number of arguments");
         }
