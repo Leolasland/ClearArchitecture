@@ -1,10 +1,10 @@
 package ru.robot.command;
 
-import ru.robot.state.Robot;
+import ru.robot.domain.Robot;
 
 public final class StartCommand implements Command {
     @Override
-    public void execute(Robot robot) {
-        robot.start();
+    public String execute(Robot robot) {
+        return robot.start();
     }
 }

@@ -1,7 +1,7 @@
 package ru.robot.command;
 
-import ru.robot.state.Robot;
+import ru.robot.domain.Robot;
 
 public interface Command {
-    void execute(Robot robot);
+    String execute(Robot robot);
 }

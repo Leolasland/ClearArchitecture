@@ -1,6 +1,6 @@
 package ru.robot.command;
 
-import ru.robot.state.Robot;
+import ru.robot.domain.Robot;
 
 public final class MoveCommand implements Command {
     private final int distance;
@@ -10,7 +10,7 @@ public final class MoveCommand implements Command {
     }
 
     @Override
-    public void execute(Robot robot) {
-        robot.move(distance);
+    public String execute(Robot robot) {
+        return robot.move(distance);
     }
 }

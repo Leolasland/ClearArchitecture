@@ -1,6 +1,6 @@
 package ru.robot.command;
 
-import ru.robot.state.Robot;
+import ru.robot.domain.Robot;
 
 public final class TurnCommand implements Command {
     private final int deltaDeg;
@@ -10,7 +10,7 @@ public final class TurnCommand implements Command {
     }
 
     @Override
-    public void execute(Robot robot) {
-        robot.turn(deltaDeg);
+    public String execute(Robot robot) {
+        return robot.turn(deltaDeg);
     }
 }

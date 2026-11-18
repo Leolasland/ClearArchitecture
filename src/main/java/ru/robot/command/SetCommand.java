@@ -1,7 +1,7 @@
 package ru.robot.command;
 
-import ru.robot.state.CleaningState;
-import ru.robot.state.Robot;
+import ru.robot.domain.CleaningState;
+import ru.robot.domain.Robot;
 
 public final class SetCommand implements Command {
     private final CleaningState state;
@@ -11,7 +11,7 @@ public final class SetCommand implements Command {
     }
 
     @Override
-    public void execute(Robot robot) {
-        robot.setCleaningState(state);
+    public String execute(Robot robot) {
+        return robot.setCleaningState(state);
     }
 }

@@ -1,7 +1,8 @@
-package ru.robot;
+package ru.robot.app;
 
 import ru.robot.command.Command;
-import ru.robot.state.Robot;
+import ru.robot.domain.Robot;
+import ru.robot.parser.CommandParser;
 
 import java.util.List;
 
@@ -16,7 +17,7 @@ public class Main {
             "stop");
 
     public static void main(String[] args) {
-        Robot robot = new Robot(System.out);
+        Robot robot = new Robot();
         CommandParser parser = new CommandParser();
 
         for (String line : inputCommands) {
@@ -25,7 +26,8 @@ public class Main {
             }
             try {
                 Command command = parser.parse(line);
-                command.execute(robot);
+                String execute = command.execute(robot);
+                System.out.println(execute);
             } catch (IllegalArgumentException e) {
                 System.out.println("Ошибка в команде '" + line + "': " + e.getMessage());
             }

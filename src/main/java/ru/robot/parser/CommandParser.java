@@ -1,7 +1,7 @@
-package ru.robot;
+package ru.robot.parser;
 
 import ru.robot.command.*;
-import ru.robot.state.CleaningState;
+import ru.robot.domain.CleaningState;
 
 import java.util.Map;
 
